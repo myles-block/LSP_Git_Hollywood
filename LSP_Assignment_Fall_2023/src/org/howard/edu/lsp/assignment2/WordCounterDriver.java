@@ -15,7 +15,7 @@ public class WordCounterDriver {
 		/**
 		 * Myles Block
 		 */
-		File file = new File("main.java.resource/words.txt");
+		File file = new File("src/org/howard/edu/lsp/assignment2/input_words.txt");
 		HashMap<String, Integer> hashmap = new HashMap<String, Integer>();
 		
 		try {
