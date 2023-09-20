@@ -35,12 +35,10 @@ public class WordCounterDriver {
 					}
 				}
 			}
-//			for (String name: hashmap.keySet()) {//this prints out the output of the file to the console
-//				System.out.println(name + " " + hashmap.get(name).toString());
-//			}
 			scan.close();
 			
-			writeMapCountToFile(hashmap, "src/org/howard/edu/lsp/assignment2/final_word_count.txt");
+			finalFileCreation();//creates a new final file if one does not exist
+			writeMapCountToFile(hashmap, "src/org/howard/edu/lsp/assignment2/final_word_count.txt");//writes to output file
 			System.out.println("done");
 			
 		} catch (FileNotFoundException e) {
@@ -60,5 +58,21 @@ public class WordCounterDriver {
         } catch (IOException e) {
             e.printStackTrace();
         }
+	}
+	
+	public static void finalFileCreation() {
+		try {
+		      File myObj = new File("src/org/howard/edu/lsp/assignment2/final_word_count.txt");
+		      
+		      if (myObj.createNewFile()) {
+		        System.out.println("File created: " + myObj.getName());
+		      } else {
+		        System.out.println("File already exists. Editing that one instead");
+		      }
+		      
+		    } catch (IOException e) {
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		    }
 	}
 }
