@@ -89,11 +89,11 @@ public class IntegerSet {
 	/**
 	 * Finds the maximum value in the IntegerSet (if it exists)
 	 * @return maximum value in IntegerSet
-	 * @throws EmptySetException if the set is empty
+	 * @throws IntegerSetException if the set is empty
 	 */
-	public int largest() throws EmptySetException {
+	public int largest() throws IntegerSetException {
 		if (set.size() == 0) {
-			throw new EmptySetException("IntegerSet is empty");
+			throw new IntegerSetException("IntegerSet is empty");
 		}
 		int max = set.get(0);
 		for (int current : set) {
@@ -107,11 +107,11 @@ public class IntegerSet {
 	/**
 	 * Finds the minimum value in the IntegerSet (if it exists)
 	 * @return minimum value in IntegerSet
-	 * @throws EmptySetException if the set is empty
+	 * @throws IntegerSetException if the set is empty
 	 */
-	public int smallest() throws EmptySetException {
+	public int smallest() throws IntegerSetException {
 		if (set.size() == 0) {
-			throw new EmptySetException("IntegerSet is empty");
+			throw new IntegerSetException("IntegerSet is empty");
 		}
 		int min = set.get(0);
 		for (int current : set) {

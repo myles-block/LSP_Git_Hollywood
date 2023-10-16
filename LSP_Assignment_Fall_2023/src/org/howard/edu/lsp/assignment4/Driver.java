@@ -3,8 +3,15 @@ package org.howard.edu.lsp.assignment4;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Driver class for testing the implementation of IntegerSet
+ * @author mylesblock
+ */
 public class Driver {
-	
+	/**
+	 * System output of different tests
+	 * @param args passed in strings
+	 */
 	public static void main(String[] args) {
 		IntegerSet set1 = new IntegerSet();
 		
