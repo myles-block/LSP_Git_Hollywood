@@ -21,7 +21,13 @@ public class IntegerSet {
 	 * @param inputSet the ArrayList of Integers to created into an IntegerSet
 	 */
 	public IntegerSet(ArrayList<Integer> inputSet) {
-		this.set = inputSet;
+		IntegerSet new_set = new IntegerSet();
+		for (int num : inputSet) {
+			if (!set.contains(num)) {
+				new_set.set.add(num);
+			}
+		}
+		this.set = new_set.set;
 	}
 	
 	/**
@@ -59,6 +65,7 @@ public class IntegerSet {
 	
 	/**
 	 * Checks if two sets are equal regardless of order, (false if otherwise)
+	 * @param intSetb IntegerSet to be checked for equality
 	 * @return true if the sets are equal, false if they are not
 	 */
 	public boolean equals(IntegerSet intSetb) {
