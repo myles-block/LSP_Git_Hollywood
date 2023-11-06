@@ -28,10 +28,12 @@ public class IntegerSetTest {
 	@Test
 	@DisplayName("test add")
 	public void testAdd() {
-		ArrayList<Integer> toCastArrayList = new ArrayList<>(Arrays.asList(0));
+		ArrayList<Integer> toCastArrayList = new ArrayList<>(Arrays.asList(0, 1));
 		IntegerSet expected = new IntegerSet(toCastArrayList);
 		
 		set.add(0);
+		set.add(0); //adding dupe to see there is none in expected
+		set.add(1);
 		assertEquals(expected, set);
 	} 
 	
