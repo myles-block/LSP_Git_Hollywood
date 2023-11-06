@@ -58,6 +58,12 @@ public class Driver {
 		//Union
 		set1.union(set2);
 		System.out.println("Union of set1 & set2: " + set1.toString());
+		ArrayList<Integer> toCastArrayList1 = new ArrayList<>(Arrays.asList(1, 3, 4, 5));
+		IntegerSet unionSet1 = new IntegerSet(toCastArrayList1);
+		ArrayList<Integer> toCastArrayList2 = new ArrayList<>(Arrays.asList(1, 2, 6, 7));
+		IntegerSet unionSet2 = new IntegerSet(toCastArrayList2);
+		unionSet1.union(unionSet2);
+		System.out.println("Union of unionSet1 & unionSet2: " + unionSet1.toString());
 		
 		//Intersection
 		ArrayList<Integer> toCastSet3 = new ArrayList<>(Arrays.asList(1, 3, 10));

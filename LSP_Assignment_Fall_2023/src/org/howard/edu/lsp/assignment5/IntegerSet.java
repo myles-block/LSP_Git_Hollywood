@@ -68,8 +68,16 @@ public class IntegerSet {
 	 * @param intSetb IntegerSet to be checked for equality
 	 * @return true if the sets are equal, false if they are not
 	 */
-	public boolean equals(IntegerSet intSetb) {
-		return this.set.containsAll(intSetb.set);
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+	        return true;
+	    }
+	    if (obj == null || getClass() != obj.getClass()) {
+	        return false;
+	    }
+	    IntegerSet intSetb = (IntegerSet) obj;
+	    return this.set.containsAll(intSetb.set) && intSetb.set.containsAll(this.set);
 	}
 	
 	/**
@@ -139,7 +147,11 @@ public class IntegerSet {
 	 * @param intSetb the IntegerSet to be added
 	 */
 	public void union(IntegerSet intSetb) {
-		set.addAll(intSetb.set);
+		for (int num: intSetb.set) {
+			if (this.set.contains(num) == false) {
+				this.set.add(num);
+			}
+		}
 	}
 	
 	
