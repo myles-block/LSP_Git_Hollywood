@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,19 +25,19 @@ public class IntegerSetTest {
 	}
 	
 	@Test
-	@DisplayName("test add")
+	@DisplayName("Testing .add()")
 	public void testAdd() {
 		ArrayList<Integer> toCastArrayList = new ArrayList<>(Arrays.asList(0, 1));
 		IntegerSet expected = new IntegerSet(toCastArrayList);
 		
 		set.add(0);
-		set.add(0); //adding dupe to see there is none in expected
+		set.add(0); //adding dupe to test that only one is printed out
 		set.add(1);
 		assertEquals(expected, set);
 	} 
 	
 	@Test
-	@DisplayName("test length")
+	@DisplayName("Testing .length()")
 	public void testLength() {
 		int expected = 4;
 		set.add(0);
@@ -50,7 +49,7 @@ public class IntegerSetTest {
 	}
 	
 	@Test
-	@DisplayName("test clear")
+	@DisplayName("Testing .clear()")
 	public void testClear() {
 		int expected = 0;
 		set.add(23);
@@ -59,7 +58,7 @@ public class IntegerSetTest {
 	}
 	
 	@Test
-	@DisplayName("test toString")
+	@DisplayName("Testing .toString()")
 	public void testToString() {
 		String expectedString = "[1, 2, 3, 4, 5]";
 		
@@ -73,19 +72,24 @@ public class IntegerSetTest {
 	}
 	
 	@Test
-	@DisplayName("test Equals")
+	@DisplayName("Test .equals() #1: Testing basic .equals()")
 	public void testEquals() {
 		ArrayList<Integer> toCastArrayList = new ArrayList<>(Arrays.asList(1, 2, 3, 4));
 		IntegerSet trueSet = new IntegerSet();
 		IntegerSet falseSet = new IntegerSet(toCastArrayList);
-		ArrayList<Integer> toCastArrayList1 = new ArrayList<>(Arrays.asList(2, 3, 4, 1));//any order set
-		IntegerSet jumbledSet = new IntegerSet(toCastArrayList1);
 		
 		trueSet.add(1);
 		set.add(1);
 		assertTrue(set.equals(trueSet));
 		assertFalse(set.equals(falseSet));
-		
+	}
+	
+	@Test
+	@DisplayName("Test .equals() #2: Equaling two sets with one set being non-ordered")
+	public void testEqualsNonOrdered() {
+		ArrayList<Integer> toCastArrayList1 = new ArrayList<>(Arrays.asList(2, 3, 4, 1));//any order set
+		IntegerSet jumbledSet = new IntegerSet(toCastArrayList1);
+	
 		set.add(1);
 		set.add(2);
 		set.add(3);
@@ -93,8 +97,10 @@ public class IntegerSetTest {
 		assertTrue(set.equals(jumbledSet));//checks if the input (1,2,3,4) == (2,3,4,1)...as it should
 	}
 	
+	
+	
 	@Test
-	@DisplayName("test contains")
+	@DisplayName("Testing .contains()")
 	public void testContains() {
 		set.add(1);
 		assertTrue(set.contains(1));
@@ -102,7 +108,7 @@ public class IntegerSetTest {
 	}
 	
 	@Test
-	@DisplayName("test largest")
+	@DisplayName("Testing .largest()")
 	public void testLargest() throws IntegerSetException {
 		int expected = 60;
 		set.add(10);
@@ -122,7 +128,7 @@ public class IntegerSetTest {
 	}
 	
 	@Test
-	@DisplayName("test smallest")
+	@DisplayName("Testing .smallest()")
 	public void testSmallest() throws IntegerSetException {
 		int expected = 10;
 		set.add(10);
@@ -142,9 +148,9 @@ public class IntegerSetTest {
 	}
 	
 	@Test
-	@DisplayName("test remove")
+	@DisplayName("Testing .remove() #1: Removing an item from a set")
 	public void testRemove() {
-		//Test Case 1: Removing from a set with items
+		//Test Case 1: Removing a number from a set with items
 		int expectedLength = 3;
 		set.add(1);
 		set.add(2);
@@ -154,17 +160,20 @@ public class IntegerSetTest {
 		
 		assertFalse(set.contains(3));
 		assertEquals(expectedLength, set.length());
-		
+	}
+	
+	@Test
+	@DisplayName("Testing .remove() #2: Removing an item that isn't there")
+	public void testRemove2() {
 		//Test Case 2: Removing an item that isn't in there
-		expectedLength = 0;
-		set.clear();
+		int expectedLength = 0;
 		set.remove(1);
 		assertFalse(set.contains(1));
 		assertEquals(expectedLength, set.length());
 	}
 	
 	@Test
-	@DisplayName("test union")
+	@DisplayName("Testing .union() #1: Unioning two basic sets")
 	public void testUnion() {
 		//Test Case 1: Unioning a set with items
 		ArrayList<Integer> toCastArrayList = new ArrayList<>(Arrays.asList(5, 6, 7, 8));
@@ -181,14 +190,17 @@ public class IntegerSetTest {
 		
 		assertEquals(expectedLength, set.length());
 		assertEquals(expectedSet, set);
-		
+	}
+	
+	@Test
+	@DisplayName("Testing .union() #2: Unioning an empty set")
+	public void testUnion2() {
 		//TestCase 2: Unioning an empty set
-		set.clear();
-		set2.clear();
-		toCastArrayList1 = new ArrayList<>(Arrays.asList(1, 2, 3, 4));
-		expectedSet = new IntegerSet(toCastArrayList1);
+		IntegerSet set2 = new IntegerSet();
+		ArrayList<Integer> toCastArrayList1 = new ArrayList<>(Arrays.asList(1, 2, 3, 4));
+		IntegerSet expectedSet = new IntegerSet(toCastArrayList1);
 		
-		expectedLength = 4;
+		int expectedLength = 4;
 		set.add(1);
 		set.add(2);
 		set.add(3);
@@ -196,13 +208,16 @@ public class IntegerSetTest {
 		set.union(set2);
 		
 		assertEquals(expectedLength, set.length());
-		assertEquals(expectedSet, set);
-		
+		assertEquals(expectedSet, set);	
+	}
+	
+	@Test
+	@DisplayName("Testing .union() #3: Unioning two empty set")
+	public void testUnion3() {
 		//Test Case 3: Unioning Two Empty Sets
-		expectedLength = 0;
-		set.clear();
-		set2.clear();
-		expectedSet.clear();
+		IntegerSet set2 = new IntegerSet();
+		IntegerSet expectedSet = new IntegerSet();
+		int expectedLength = 0;
 		set.union(set2);
 		
 		assertEquals(expectedLength, set.length());
@@ -213,7 +228,7 @@ public class IntegerSetTest {
 	
 	
 	@Test
-	@DisplayName("test intersect")
+	@DisplayName("Testing .intersect() #1: Intersecting two basic sets")
 	public void testIntersect() {
 		//Test Case 1: Intersecting a set that has intersections
 		ArrayList<Integer> toCastArrayList = new ArrayList<>(Arrays.asList(10, 20, 30));
@@ -228,28 +243,36 @@ public class IntegerSetTest {
 		set.intersect(set2);
 		
 		assertEquals(expectedSet, set);
-		
+	}
+	
+	@Test
+	@DisplayName("Testing .intersect() #2: Intersect on a set with no intersections")
+	public void testIntersect2() {
 		//Test Case 2: Intersecting a set that has no intersections
-		set2.clear();
-		expectedSet.clear();
 		int expectedLength = 0;
-		toCastArrayList = new ArrayList<>(Arrays.asList(1000, 9000, 5000)); // this set does have any commonalities with the first set
-		set2 = new IntegerSet(toCastArrayList);
+		ArrayList<Integer> toCastArrayList = new ArrayList<>(Arrays.asList(1000, 9000, 5000)); // this set does have any commonalities with the first set
+		IntegerSet set2 = new IntegerSet(toCastArrayList);
+		IntegerSet expectedSet = new IntegerSet();
 		
+		set.add(100);
+		set.add(200);
+		set.add(20);
+		set.add(1);
 		set.intersect(set2);
 		
 		assertEquals(expectedSet, set);
 		assertEquals(expectedLength, set.length());
+	}
 		
+	@Test
+	@DisplayName("Testing .intersect() #3: Intersect on a set with only intersections")
+	public void testIntersect3() {
 		//Test Case 3: Intersecting a set with only intersections
-		set.clear();
-		set2.clear();
-		expectedSet.clear();
-		expectedLength = 3;
-		toCastArrayList = new ArrayList<>(Arrays.asList(1, 2, 3));
-		set2 = new IntegerSet(toCastArrayList);
-		toCastArrayList1 = new ArrayList<>(Arrays.asList(1, 2, 3));
-		expectedSet = new IntegerSet(toCastArrayList1);
+		int expectedLength = 3;
+		ArrayList<Integer> toCastArrayList = new ArrayList<>(Arrays.asList(1, 2, 3));
+		IntegerSet set2 = new IntegerSet(toCastArrayList);
+		ArrayList<Integer> toCastArrayList1 = new ArrayList<>(Arrays.asList(1, 2, 3));
+		IntegerSet expectedSet = new IntegerSet(toCastArrayList1);
 		
 		set.add(1);
 		set.add(2);
@@ -259,11 +282,10 @@ public class IntegerSetTest {
 		assertEquals(expectedSet, set);
 		assertEquals(expectedLength, set.length());
 		
-		
 	}
 	
 	@Test
-	@DisplayName("test diff")
+	@DisplayName("Testing .diff() #1: Diffing two basic sets")
 	public void testDiff() {
 		//Test Case 1: Diffing a set that has a difference
 		ArrayList<Integer> toCastArrayList = new ArrayList<>(Arrays.asList(2, 4));
@@ -278,13 +300,17 @@ public class IntegerSetTest {
 		set.diff(set2);
 		
 		assertEquals(expectedSet, set);
-		
+	}
+	
+	@Test
+	@DisplayName("Testing .diff() #2: Diffing a set with ALL matches")
+	public void testDiff2() {
 		//Test Case 2: Diffing a set with ALL matches
 		set.clear();
-		toCastArrayList = new ArrayList<>(Arrays.asList(10, 20, 30, 40));
-		set2 = new IntegerSet(toCastArrayList);
-		toCastArrayList1 = new ArrayList<>(Arrays.asList());
-		expectedSet = new IntegerSet(toCastArrayList1);
+		ArrayList<Integer> toCastArrayList = new ArrayList<>(Arrays.asList(10, 20, 30, 40));
+		IntegerSet set2 = new IntegerSet(toCastArrayList);
+		ArrayList<Integer> toCastArrayList1 = new ArrayList<>(Arrays.asList());
+		IntegerSet expectedSet = new IntegerSet(toCastArrayList1);
 	
 		set.add(10);
 		set.add(20);
@@ -294,13 +320,16 @@ public class IntegerSetTest {
 		
 		assertEquals(expectedSet, set);
 		assertTrue(set.isEmpty());
-		
+	}
+	
+	@Test
+	@DisplayName("Testing .diff() #3: Diffing a set with NO matches")
+	public void testDiffTestCase3() {
 		//Test Case 3: Diffing a set with NO matches
-		set.clear();
-		toCastArrayList = new ArrayList<>(Arrays.asList(10, 20, 30, 40));
-		set2 = new IntegerSet(toCastArrayList);
-		toCastArrayList1 = new ArrayList<>(Arrays.asList(1, 2, 3, 4));
-		expectedSet = new IntegerSet(toCastArrayList1);
+		ArrayList<Integer> toCastArrayList = new ArrayList<>(Arrays.asList(10, 20, 30, 40));
+		IntegerSet set2 = new IntegerSet(toCastArrayList);
+		ArrayList<Integer> toCastArrayList1 = new ArrayList<>(Arrays.asList(1, 2, 3, 4));
+		IntegerSet expectedSet = new IntegerSet(toCastArrayList1);
 		
 		set.add(1);
 		set.add(2);
@@ -312,7 +341,7 @@ public class IntegerSetTest {
 	}
 	
 	@Test
-	@DisplayName("test complement")
+	@DisplayName("Testing .complement() #1: Complementing two sets that create one")
 	public void testComplement() {
 		//Test Case 1: A complement exist
 		ArrayList<Integer> toCastArrayList = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6));
@@ -328,12 +357,17 @@ public class IntegerSetTest {
 		
 		assertEquals(expectedSet, set);
 		
+	}
+	
+	@Test
+	@DisplayName("Testing .complement() #2: Complementing two sets that match ")
+	public void testComplement2() {
 		//Test Case 2: A complement does not exist
 		set.clear();
-		toCastArrayList = new ArrayList<>(Arrays.asList(1, 2, 3, 4));
-		set2 = new IntegerSet(toCastArrayList);
-		toCastArrayList1 = new ArrayList<>(Arrays.asList());//expected empty set
-		expectedSet = new IntegerSet(toCastArrayList1);
+		ArrayList<Integer> toCastArrayList = new ArrayList<>(Arrays.asList(1, 2, 3, 4));
+		IntegerSet set2 = new IntegerSet(toCastArrayList);
+		ArrayList<Integer> toCastArrayList1 = new ArrayList<>(Arrays.asList());//expected empty set
+		IntegerSet expectedSet = new IntegerSet(toCastArrayList1);
 		
 		set.add(1);
 		set.add(2);
@@ -347,7 +381,7 @@ public class IntegerSetTest {
 	}
 	
 	@Test
-	@DisplayName("test isEmpty")
+	@DisplayName("Testing .isEmpty()")
 	public void testIsEmpty() {
 		//Test Case 1: set is Empty
 		assertEquals(0, set.length());
